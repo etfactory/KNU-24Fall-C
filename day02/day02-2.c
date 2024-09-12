@@ -4,7 +4,7 @@ int main() {
     int number[2];
     int result=0;;
 
-    printf("¼ıÀÚ µÎ °³¸¦ ÀÔ·ÂÇÏ¼¼¿ä.\n");
+    printf("ìˆ«ì ë‘ ê°œë¥¼ ì…ë ¥í•˜ì„¸ìš”.\n");
     scanf_s("%d", &number[0]);
     scanf_s("%d", &number[1]);
     for(int i=number[0];i<=number[1];i++) {
