@@ -12,7 +12,6 @@ void main() {
 int factorial(int inputNumber) {
     if(inputNumber==1) {
         return 1;
-    } else {
-        return inputNumber*factorial(inputNumber-1);
     }
+    return inputNumber*factorial(inputNumber-1);
 }
