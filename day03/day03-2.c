@@ -10,7 +10,7 @@ void main() {
     printf("%d! = %d", inputNumber, factorial(inputNumber));
 }
 int factorial(int inputNumber) {
-    if(inputNumber==1) {
+    if( inputNumber==1 || inputNumber ==0 ) {
         return 1;
     }
     return inputNumber*factorial(inputNumber-1);
