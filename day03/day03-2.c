@@ -3,7 +3,7 @@
 int factorial(int inputNumber);
 
 void main() {
-    int inputNumber; int result=0;
+    int inputNumber;
     printf("계산할 팩토리얼 값 입력 : ");
     scanf_s("%d", &inputNumber);
 
