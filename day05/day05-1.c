@@ -6,10 +6,8 @@ void main() {
     printf("Enter Number of Students:");
     scanf_s("%d", &numOfStudents);
 
-    int str = 100;
-
     int *studentID = (int*)malloc(sizeof(int) * numOfStudents);
-    char (*studentName)[str] = (char(*)[str])malloc(sizeof(char) * str * numOfStudents);
+    char **studentName = (char**)malloc(sizeof(char*) * numOfStudents);
     int *studentScore = (int*)malloc(sizeof(int) * numOfStudents);
 
     for (int i = 0; i < numOfStudents; i++) {
