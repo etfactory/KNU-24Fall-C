@@ -20,16 +20,18 @@ int main(void) {
         x = (double)rand()/RAND_MAX;
         y = (double)rand()/RAND_MAX;
 
-        if(sqrt(x*x+y*y)<=1) {    //원 내부에 있는지 확인 (원의 방정식) x^2 + y^2 = r^2
-            circle++;               //원 내부에 있으면 circle 변수 증가
+        //원 내부에 있는지 확인 (원의 방정식) x^2 + y^2 = r^2
+        if(sqrt(x*x+y*y)<=1) {
+            //원 내부에 있으면 circle 변수 증가
+            circle++;
         }
 
         count++;
 
         percent = count / (maxCount / 100);
         pi = (double)circle/count*4;
-
-        if(count%(maxCount/100)==0) {   //1%마다 출력
+        //1%마다 출력
+        if(count%(maxCount/100)==0) {
             //고정폭 맞추고 싶어서 10%미만일 때 0추가
             if (percent<10)
                 printf("0%d%%..\t PI: %.6f\t", percent, pi);
