@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 
 int main() {
     int number;
@@ -12,9 +12,11 @@ int main() {
         for(int j=i; j<=number-1;j++) {
             printf(" ");
         }
-        for(int k=0; k<=(i*2); k++) {
+        for(int k=0; k<=i*2; k++) {
             printf("*");
         }
         printf("\n");
     }
+
+    return 0;
 }
