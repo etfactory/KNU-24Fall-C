@@ -20,7 +20,6 @@ void printArray(int array[SIZE][SIZE]){
     }
 }
 
-//void형 포인터 왜 써야 하는지 진짜 모르겠는데요?
 void movePointer(void* array){
     int* ptr = (int*)array;
     int nextIndex = 0;
