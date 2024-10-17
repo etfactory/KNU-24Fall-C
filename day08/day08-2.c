@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define SIZE 10
 
 void fillRandom(int array[SIZE][SIZE]){
+    srand(time(NULL));
+
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             array[i][j] = rand()%20+1;
