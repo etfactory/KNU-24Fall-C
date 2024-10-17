@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 int main(void) {
-    char inputString[100];
+    char *inputString = (char *)malloc(sizeof(char));
     //포인터 p와 q 문자열 시작위치로
     char *p = inputString;
     char *q = inputString;
     char temp;
 
-    printf("문자열을 입력하세요: ");
+    printf("문자열을 입력하세요:");
     gets(inputString);
 
     //p포인터를 문자열 끝으로
@@ -38,7 +39,9 @@ int main(void) {
         }
     }
 
-    printf("뒤집어진 문자열 : %s\n", inputString);
+    printf("뒤집어진 문자열:%s\n", inputString);
+
+    free(inputString);
 
     return 0;
 }
