@@ -3,12 +3,23 @@
 ### 2024년 2학기
 ### 국립공주대학교 컴퓨터공학부 소프트웨어전공
 ### 202101776 오은택
-
 ## C Programming Practice
 ### 2024 Second Semester
-### Kongju Nat'l Univ.
-### Dept. of Computer Science, Software Major
+### Kongju National Univ.
+### Dept. of Computer Engineering, Software Major
 ### 202101776 Euntaek Oh
+* * *
+## 목차
+1. 복습
+   1. [day01](#day01)
+   2. [day02](#day02)
+   3. [day03](#day03)
+   4. [day04](#day04)
+   5. [day05](#day05)
+   6. [day06](#day06)
+2. 실습
+   1. [day07](#day07)
+   2. [day08](#day08)
 
 * * *
 ## day01
