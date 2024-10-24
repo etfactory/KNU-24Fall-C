@@ -16,23 +16,31 @@ void printProduct(Product product) {
 int main() {
     int id; char name[20]; int price;
     Product product[5];
-    int i = 0;
-    while (i<sizeof(product)/sizeof(Product)) {
+    int count = 0;
+
+    while (count<sizeof(product)/sizeof(Product)) {
         printf("상품 정보를 입력하세요. (입력 중단은 id에 0 입력)\n");
-        printf("상품 ID : ");
+        printf("상품 ID:");
         scanf_s("%d", &id);
+
         if (id == 0) break;
-        printf("상품명 : ");
+
+        printf("상품명:");
         scanf_s("%s", name, sizeof(name));
-        printf("가격 : ");
+        printf("가격:");
         scanf_s("%d", &price);
-        product[i].id = id;
-        strcpy(product[i].name, name);
-        product[i].price = price;
-        i++;
+
+        product[count].id = id;
+        strcpy(product[count].name, name);
+        product[count].price = price;
+        count++;
     }
-    for (int j=0; j<i; j++) {
-        printProduct(product[j]);
+
+    printf("<<입력된 상품 정보 출력>>\n");
+    for (int i=0; i<count; i++) {
+        printProduct(product[i]);
         printf("\n");
     }
+
+    return 0;
 }
