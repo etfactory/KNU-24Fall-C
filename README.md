@@ -6,7 +6,7 @@
 ## C Programming Practice
 ### 2024 Second Semester
 ### Kongju National Univ.
-### Div. of Computer Engineering, Software Major
+### Div. of Computer Engineering, Major in Software
 ### 202101776 Euntaek Oh
 * * *
 ## 목차
