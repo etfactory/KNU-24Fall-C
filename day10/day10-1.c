@@ -28,12 +28,6 @@ struct NODE* last_node() {
     return cur;
 }
 
-void insert_node_last(struct NODE* new_node) {
-    struct NODE* last = last_node();
-
-    last->link = new_node;
-}
-
 void insert_node_sorted(struct NODE* new_node) {
     struct NODE* cur = head;
     while (cur->link != NULL && cur->link->score > new_node->score) {
