@@ -1,12 +1,3 @@
-/* 1. 학생삽입(노드생성)
- * 1-1. 동일한 이름을 갖는 학생은 X
- * 2. 전체 학생 출력(노드순회)
- * 3. 학생삭제(노드삭제)
- *
- * 연결리스트에 데이터 삽입 시 정렬된 위치에 삽입
- * 99,70 <- 80 삽입하면 99,80,70
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -90,7 +81,6 @@ int main() {
     int menu;
     char name[20];
     int score;
-    struct NODE* result;
 
     head = (struct NODE*)malloc(sizeof(struct NODE));
     head->link = NULL;
@@ -108,27 +98,27 @@ int main() {
                 scanf_s("%s", name, sizeof(name));
                 printf("%s 성적:", name);
                 scanf_s("%d", &score);
-                if(find_node(name) == NULL) {
-                    insert_node_sorted(create_node(name, score));
+                if(find_node(name) != NULL) {
+                    printf("[!] 이미 존재하는 학생입니다.\n");
                 } else {
-                    printf("[ ! ] 이미 존재하는 학생입니다.\n");
+                    insert_node_sorted(create_node(name, score));
                 }
                 break;
             case 2:
                 printf("학생 이름:");
                 scanf_s("%s", name, sizeof(name));
-                if(delete_node(name) == 0) {
-                    printf("존재하지 않는 학생입니다.\n");
-                } else {
+                if(find_node(name) != NULL) {
                     delete_node(name);
+                } else {
+                    printf("[!] 존재하지 않는 학생입니다.\n");
                 }
                 break;
             case 3:
-                printf("프로그램을 종료합니다.\n");
+                printf("[!] 프로그램을 종료합니다.\n");
                 printf("------------------\n");
                 return 0;
             default:
-                printf("번호를 잘못 입력하였습니다.\n");
+                printf("[!] 번호를 잘못 입력하였습니다.\n");
                 break;
         }
     }
