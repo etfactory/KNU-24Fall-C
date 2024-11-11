@@ -129,13 +129,13 @@ int main() {
         switch (menu) {
             case 1:
                 printf("고객이름:");
-                scanf("%s", customerName);
+                scanf_s("%s", customerName);
                 printf("고객등급(1~5):");
-                scanf("%d", &rank);
+                scanf_s("%d", &rank);
                 printf("주문량:");
-                scanf("%d", &order_amount);
+                scanf_s("%d", &order_amount);
                 printf("포인트:");
-                scanf("%d", &point);
+                scanf_s("%d", &point);
 
                 if(find_customer(customerName)!=NULL) {
                     printf("[!] 이미 저장된 고객입니다.\n");
@@ -150,7 +150,7 @@ int main() {
                 break;
             case 2:
                 printf("고객이름:");
-                scanf("%s", customerName);
+                scanf_s("%s", customerName);
                 if(find_customer(customerName)!=NULL) {
                     delete_customer(customerName);
                 } else {
