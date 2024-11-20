@@ -42,13 +42,6 @@ struct Customer* last_customer() {
     return cur;
 }
 
-void insert_customer_last(struct Customer* new_customer) {
-    struct Customer* last = last_customer();
-
-    last->next = new_customer;
-    new_customer->prev = last;
-}
-
 void insert_customer_sorted(struct Customer* new_customer) {
     struct Customer* cur = head;
     while (cur->next != NULL && (cur->next->rank < new_customer->rank ||
