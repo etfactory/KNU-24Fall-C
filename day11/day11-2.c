@@ -26,7 +26,6 @@ int main() {
     int n = 1;
     int i = 0;
     double result = integral(a,b,n);
-    double prevResult = result;
     while(1) {
         if (i==30) {
             break;
