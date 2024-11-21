@@ -4,35 +4,45 @@
 //이 때 n을 늘릴 수록 실제 넓이로 수렴
 //n을 두 배씩 늘리면서 적분값을 확인
 //f(x)=-log10(1/x)+sin(x)일 때 [10,30]에서의 적분값을 구하시오
+//F(x)=log10(x)-cos(x), F(b)-F(a)
 #include <stdio.h>
 #include <math.h>
 
 double f(double x) {
     return -log10(1/x)+sin(x);
+    //return x*x+1;
 }
 
-double integral(double a, double b, int n) {
-    double dx = (b-a)/n;
-    double sum = 0;
-    for (int i=0; i<n; i++) {
-        sum += f(a+i*dx)*dx;
+double integral(int a, int b, int n) {
+    double result = 0;
+    double dx = (double)(b - a) / n;
+    for (int i = 0; i < n; i++) {
+        double x = a + i * dx;
+        result += f(x) * dx;
     }
-    return sum;
+    return result;
 }
 
 int main() {
-    double a = 10;
-    double b = 30;
+    int a, b, max;
     int n = 1;
+    double result = 0;
+
+    printf("적분할 시작 값을 입력하세요:");
+    scanf_s("%d",&a);
+    printf("적분할 끝 값을 입력하세요:");
+    scanf_s("%d",&b);
+    printf("시행할 최대 구간을 입력하세요(2^n):");
+    scanf_s("%d",&max);
+
     int i = 0;
-    double result = integral(a,b,n);
     while(1) {
-        if (i==30) {
+        if (i==max) {
             break;
         }
         n *= 2;
         result = integral(a,b,n);
-        printf("구간\t%d\t 적분값:%.4lf\n", n, result);
+        printf("구간%12d 적분값 : %.6lf\n", n, result);
         i++;
     }
     return 0;

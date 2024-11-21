@@ -23,7 +23,6 @@ int main() {
     int result = quadraticEquation(a,b,c,&x1,&x2);
 
     if (result == 0) {
-
     } else if (x1 == x2) {
         printf("x = %.2lf \n", x1);
     } else {
