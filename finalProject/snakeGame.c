@@ -18,9 +18,11 @@ main() : main function
 #include <io.h>
 #include <Windows.h>
 
-int i, j, height = 20, width = 20;
+int i, j, height = 20, width = 40;
 int gameover, score;
 int x, y, fruitx, fruity, flag;
+int tailX[100], tailY[100]; // Arrays to store the positions of the tail segments
+int nTail; // Number of tail segments
 char name[20];
 
 struct rank {
@@ -37,6 +39,8 @@ void setup()
 	// Stores height and width 
 	x = height / 2;
 	y = width / 2;
+
+	nTail = 0;
 
 	fruitx = 0;
 	while (fruitx == 0) {
@@ -60,16 +64,28 @@ void draw()
 			if (i == 0 || i == width - 1
 				|| j == 0
 				|| j == height - 1) {
-				printf("#");
+				printf("■");
 			}
 			else {
 				if (i == x && j == y)
 					printf("0");
+				//else if (i == x && j == y)
+					//printf("o");
 				else if (i == fruitx
 					&& j == fruity)
-					printf("*");
+					printf("#");
 				else
 					printf(" ");
+				int isTail = 0;
+				for (int k = 0; k < nTail; k++) {
+					if (i == tailX[k] && j == tailY[k]) {
+						printf("o");
+						isTail = 1;
+					}
+				}
+				if (!isTail) {
+					printf(" ");
+				}
 			}
 		}
 		printf("\n");
@@ -112,32 +128,43 @@ void input()
 void logic()
 {
 	Sleep(200);
-	switch (flag) {
-	case 1:
-		y--;
-		break;
-	case 2:
-		x++;
-		break;
-	case 3:
-		y++;
-		break;
-	case 4:
-		x--;
-		break;
-	default:
-		break;
+
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+
+	for (int i = 1; i < nTail; i++) {
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
 	}
 
-	// If the game is over 
-	if (x < 0 || x > height
-		|| y < 0 || y > width)
+	switch (flag) {
+		case 1:
+			y--;
+		break;
+		case 2:
+			x++;
+		break;
+		case 3:
+			y++;
+		break;
+		case 4:
+			x--;
+		break;
+		default:
+			break;
+	}
+
+	if (x < 0 || x > height || y < 0 || y > width)
 		gameover = 1;
 
-	// If snake reaches the fruit 
-	// then update the score 
 	if (x == fruitx && y == fruity) {
-	
 		fruitx = 0;
 		while (fruitx == 0) {
 			fruitx = rand() % 20;
@@ -149,6 +176,7 @@ void logic()
 		}
 
 		score += 10;
+		nTail++;
 	}
 }
 
