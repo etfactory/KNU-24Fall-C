@@ -69,20 +69,20 @@ void draw()
 			else {
 				if (i == x && j == y)
 					printf("0");
-				else if (i == fruitx
-					&& j == fruity)
+				else if (i == fruitx && j == fruity)
 					printf("#");
-				else
-					printf(" ");
-				int isTail = 0;
-				for (int k = 0; k < nTail; k++) {
-					if (i == tailX[k] && j == tailY[k]) {
-						printf("o");
-						isTail = 1;
+				else {
+					int isTail = 0;
+					for (int k = 0; k < nTail; k++) {
+						if (i == tailX[k] && j == tailY[k]) {
+							printf("o");
+							isTail = 1;
+							break;
+						}
 					}
-				}
-				if (!isTail) {
-					printf(" ");
+					if (!isTail) {
+						printf(" ");
+					}
 				}
 			}
 		}
@@ -236,7 +236,7 @@ void rank() {
 			}
 		}
 		for(int i=1; i<=cnt; i++) {
-			printf("%3d. %s\t%d\n", i, ranks[i].name, ranks[i].score);
+			printf("%3d. %9s\t%d\n", i, ranks[i].name, ranks[i].score);
 		}
 
 		fclose(db);
