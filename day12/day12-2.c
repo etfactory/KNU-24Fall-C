@@ -40,6 +40,6 @@ int solution(int n) {
 }
 
 int main() {
-    printf("%d\n", solution(5));
+    printf("%d\n", solution(6));
     return 0;
 }

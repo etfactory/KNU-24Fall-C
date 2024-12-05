@@ -32,12 +32,12 @@
 // topping_len은 배열 topping의 길이입니다.
 int solution(int topping[], size_t topping_len) {
     int answer = 0;
+    // +1을 해주는 이유는 index 0을 사용하지 않기 위함
     int firstTops[MAX+1] = {0,};
     int secondTops[MAX+1] = {0,};
     int firstTopsKinds = 0;
     int secondTopsKinds = 0;
 
-    // firstTops가 모두 가져갈 때
     for(int i=0; i<topping_len; i++) {
         if(secondTops[topping[i]] == 0) {
             secondTopsKinds++;
