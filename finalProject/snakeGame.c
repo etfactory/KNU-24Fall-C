@@ -159,7 +159,7 @@ void logic()
 			break;
 	}
 
-	if (x < 0 || x > height || y < 0 || y > width)
+	if (x == 0 || x == height || y == 0 || y == width)
 		gameover = 1;
 
 	if (x == fruitx && y == fruity) {
