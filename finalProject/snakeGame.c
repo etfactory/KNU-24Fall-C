@@ -18,7 +18,7 @@ main() : main function
 #include <io.h>
 #include <Windows.h>
 
-int i, j, height = 20, width = 40;
+int i, j, height = 20, width = 20;
 int gameover, score;
 int x, y, fruitx, fruity, flag;
 int tailX[100], tailY[100]; // Arrays to store the positions of the tail segments
@@ -64,13 +64,11 @@ void draw()
 			if (i == 0 || i == width - 1
 				|| j == 0
 				|| j == height - 1) {
-				printf("■");
+				printf("X");
 			}
 			else {
 				if (i == x && j == y)
 					printf("0");
-				//else if (i == x && j == y)
-					//printf("o");
 				else if (i == fruitx
 					&& j == fruity)
 					printf("#");
@@ -238,7 +236,7 @@ void rank() {
 			}
 		}
 		for(int i=1; i<=cnt; i++) {
-			printf("%d\t%s\t%d\n", i, ranks[i].name, ranks[i].score);
+			printf("%3d. %s\t%d\n", i, ranks[i].name, ranks[i].score);
 		}
 
 		fclose(db);
