@@ -34,7 +34,6 @@ int removeBarricadeX, removeBarricadeY;
 // cannotMoveItem Count
 int cntCannotMoveItem;
 int checkCannotMoveItem;
-int enableCannotMoveItem = 0;
 
 // Barricade X, Y
 int barricadeX[20], barricadeY[20];
@@ -76,8 +75,13 @@ void setup()
 		fruity = rand() % 20;
 	}
 
-	cannotMoveItemX = rand() % width;
-	cannotMoveItemY = rand() % height;
+	cntCannotMoveItem = 0;
+	cannotMoveItemX = 0;
+	while (cannotMoveItemX == 0)
+		cannotMoveItemX = rand() % width;
+	cannotMoveItemY = 0;
+	while (cannotMoveItemY == 0)
+		cannotMoveItemY = rand() % height;
 
 	countOfMoving = 0;
 	score = 0;
@@ -135,6 +139,7 @@ void draw()
 	printf("score = %d", score);
 	printf("\n");
 	printf("press X to quit the game\n");
+
 }
 
 // Function to take the input 
@@ -161,6 +166,11 @@ void input() {
 }
 
 void cannotMoveItemOn(int flag) {
+	if (_kbhit()) {
+		if (getch() == 'x') {
+			gameover = 1;
+		}
+	}
 	switch (flag) {
 		case 1:
 			y--;
@@ -241,23 +251,16 @@ void logic()
 		nTail++;
 	}
 
-	if (countOfMoving % 100) {
-		if (enableCannotMoveItem == 0) {
-			cannotMoveItemX = rand() % width;
-			cannotMoveItemY = rand() % height;
-			enableCannotMoveItem = 1;
-		}
-	}
-
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
 		checkCannotMoveItem = 1;
-		cannotMoveItemOn(flag);
-		cntCannotMoveItem = 1;
+		cannotMoveItemX = rand() % width;
+		cannotMoveItemY = rand() % height;
 	}
 
-	if (cntCannotMoveItem == 1) {
-		checkCannotMoveItem = 0;
-		cntCannotMoveItem = 0;
+	if (checkCannotMoveItem == 1) {
+		if(cntCannotMoveItem == 3)
+			checkCannotMoveItem = 0;
+		cntCannotMoveItem++;
 	}
 
 	countOfMoving++;
@@ -374,7 +377,8 @@ void main()
 					draw();
 					if(checkCannotMoveItem == 0) {
 						input();
-					}
+					} else
+						cannotMoveItemOn(flag);
 					logic();
 				}
 
