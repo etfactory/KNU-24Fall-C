@@ -20,9 +20,33 @@ main() : main function
 
 int i, j, height = 20, width = 20;
 int gameover, score;
-int x, y, fruitx, fruity, flag;
+int x, y;
+
+int countOfMoving;
+
+// Item X, Y
+int fruitx, fruity;
+int cannotMoveItemX, cannotMoveItemY;
+int reverseMoveItemX, reverseMoveItemY;
+int fixRemoveItemX, fixRemoveItemY;
+int removeBarricadeX, removeBarricadeY;
+
+// cannotMoveItem Count
+int cntCannotMoveItem;
+int checkCannotMoveItem;
+int enableCannotMoveItem = 0;
+
+// Barricade X, Y
+int barricadeX[20], barricadeY[20];
+
+int barCount;
+
+int flag;
+
+// Tail
 int tailX[100], tailY[100]; // Arrays to store the positions of the tail segments
 int nTail; // Number of tail segments
+
 char name[20];
 
 struct rank {
@@ -52,6 +76,10 @@ void setup()
 		fruity = rand() % 20;
 	}
 
+	cannotMoveItemX = rand() % width;
+	cannotMoveItemY = rand() % height;
+
+	countOfMoving = 0;
 	score = 0;
 }
 
@@ -65,17 +93,29 @@ void draw()
 				|| j == 0
 				|| j == height - 1) {
 				printf("X");
-			}
-			else {
+			} else {
 				if (i == x && j == y)
 					printf("0");
 				else if (i == fruitx && j == fruity)
 					printf("#");
+				else if (i == cannotMoveItemX && j == cannotMoveItemY)
+					printf("!");
+				else if (i == reverseMoveItemX && j == reverseMoveItemY)
+					printf("@");
+				else if (i == fixRemoveItemX && j == fixRemoveItemY)
+					printf("~");
+				else if (i == removeBarricadeX && j == removeBarricadeY)
+					printf("*");
 				else {
 					int isTail = 0;
 					for (int k = 0; k < nTail; k++) {
 						if (i == tailX[k] && j == tailY[k]) {
 							printf("o");
+							isTail = 1;
+							break;
+						}
+						if (i == barricadeX[k] && j == barricadeY[k]) {
+							printf("B");
 							isTail = 1;
 							break;
 						}
@@ -98,8 +138,7 @@ void draw()
 }
 
 // Function to take the input 
-void input()
-{
+void input() {
 	if (_kbhit()) {
 		switch (getch()) {
 		case 'a':
@@ -118,6 +157,25 @@ void input()
 			gameover = 1;
 			break;
 		}
+	}
+}
+
+void cannotMoveItemOn(int flag) {
+	switch (flag) {
+		case 1:
+			y--;
+		break;
+		case 2:
+			x++;
+		break;
+		case 3:
+			y++;
+		break;
+		case 4:
+			x--;
+		break;
+		default:
+			break;
 	}
 }
 
@@ -162,20 +220,47 @@ void logic()
 	if (x == 0 || x == height || y == 0 || y == width)
 		gameover = 1;
 
+	for (int i = 0; i < barCount; i++) {
+		if (x == barricadeX[i] && y == barricadeY[i]) {
+			gameover = 1;
+		}
+	}
+
 	if (x == fruitx && y == fruity) {
 		fruitx = 0;
 		while (fruitx == 0) {
-			fruitx = rand() % 20;
+			fruitx = rand() % width;
 		}
 
 		fruity = 0;
 		while (fruity == 0) {
-			fruity = rand() % 20;
+			fruity = rand() % height;
 		}
 
 		score += 10;
 		nTail++;
 	}
+
+	if (countOfMoving % 100) {
+		if (enableCannotMoveItem == 0) {
+			cannotMoveItemX = rand() % width;
+			cannotMoveItemY = rand() % height;
+			enableCannotMoveItem = 1;
+		}
+	}
+
+	if (x == cannotMoveItemX && y == cannotMoveItemY) {
+		checkCannotMoveItem = 1;
+		cannotMoveItemOn(flag);
+		cntCannotMoveItem = 1;
+	}
+
+	if (cntCannotMoveItem == 1) {
+		checkCannotMoveItem = 0;
+		cntCannotMoveItem = 0;
+	}
+
+	countOfMoving++;
 }
 
 int intro() {
@@ -287,7 +372,9 @@ void main()
 				while(!gameover) {
 					// Sleep(200);
 					draw();
-					input();
+					if(checkCannotMoveItem == 0) {
+						input();
+					}
 					logic();
 				}
 
