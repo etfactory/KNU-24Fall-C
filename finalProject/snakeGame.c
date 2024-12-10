@@ -95,6 +95,13 @@ void setup()
 	while (reverseMoveItemY == 0)
 		reverseMoveItemY = rand() % height;
 
+	fixRemoveItemX = 0;
+	while (fixRemoveItemX == 0)
+		fixRemoveItemX = rand() % width;
+	fixRemoveItemY = 0;
+	while (fixRemoveItemY == 0)
+		fixRemoveItemY = rand() % width;
+
 	countOfMoving = 0;
 	score = 0;
 }
@@ -116,9 +123,9 @@ void draw()
 					printf("#");
 				else if (i == cannotMoveItemX && j == cannotMoveItemY)
 					printf("!");
-				else if (i == reverseMoveItemX && j == reverseMoveItemY)
+				else if (i == reverseMoveItemX && j == reverseMoveItemY && checkReverseMoveItem == 0)
 					printf("@");
-				else if (i == fixRemoveItemX && j == fixRemoveItemY)
+				else if (i == fixRemoveItemX && j == fixRemoveItemY && checkReverseMoveItem == 1)
 					printf("~");
 				else if (i == removeBarricadeX && j == removeBarricadeY)
 					printf("*");
@@ -285,10 +292,16 @@ void logic()
 		nTail++;
 	}
 
-	if (x == reverseMoveItemX && y == reverseMoveItemY) {
+	if (x == reverseMoveItemX && y == reverseMoveItemY && checkReverseMoveItem == 0) {
 		checkReverseMoveItem = 1;
 		reverseMoveItemX = rand() % width;
 		reverseMoveItemY = rand() % height;
+	}
+
+	if (x == fixRemoveItemX && y == fixRemoveItemY && checkReverseMoveItem == 1) {
+		checkReverseMoveItem = 0;
+		fixRemoveItemX = rand() % width;
+		fixRemoveItemY = rand() % height;
 	}
 
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
