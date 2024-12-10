@@ -31,9 +31,12 @@ int reverseMoveItemX, reverseMoveItemY;
 int fixRemoveItemX, fixRemoveItemY;
 int removeBarricadeX, removeBarricadeY;
 
-// cannotMoveItem Count
+// cannotMoveItem Value
 int cntCannotMoveItem;
 int checkCannotMoveItem;
+
+// Reverse Move Item Value
+int checkReverseMoveItem;
 
 // Barricade X, Y
 int barricadeX[20], barricadeY[20];
@@ -75,6 +78,8 @@ void setup()
 		fruity = rand() % 20;
 	}
 
+	checkReverseMoveItem = 0;
+
 	cntCannotMoveItem = 0;
 	cannotMoveItemX = 0;
 	while (cannotMoveItemX == 0)
@@ -82,6 +87,13 @@ void setup()
 	cannotMoveItemY = 0;
 	while (cannotMoveItemY == 0)
 		cannotMoveItemY = rand() % height;
+
+	reverseMoveItemX = 0;
+	while (reverseMoveItemX == 0)
+		reverseMoveItemX = rand() % width;
+	reverseMoveItemY = 0;
+	while (reverseMoveItemY == 0)
+		reverseMoveItemY = rand() % height;
 
 	countOfMoving = 0;
 	score = 0;
@@ -160,6 +172,28 @@ void input() {
 			break;
 		case 'x':
 			gameover = 1;
+			break;
+		}
+	}
+}
+
+void reverseInput() {
+	if (_kbhit()) {
+		switch (getch()) {
+			case 'a':
+				flag = 3;
+			break;
+			case 's':
+				flag = 4;
+			break;
+			case 'd':
+				flag = 1;
+			break;
+			case 'w':
+				flag = 2;
+			break;
+			case 'x':
+				gameover = 1;
 			break;
 		}
 	}
@@ -249,6 +283,12 @@ void logic()
 
 		score += 10;
 		nTail++;
+	}
+
+	if (x == reverseMoveItemX && y == reverseMoveItemY) {
+		checkReverseMoveItem = 1;
+		reverseMoveItemX = rand() % width;
+		reverseMoveItemY = rand() % height;
 	}
 
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
@@ -375,10 +415,14 @@ void main()
 				while(!gameover) {
 					// Sleep(200);
 					draw();
-					if(checkCannotMoveItem == 0) {
-						input();
-					} else
+					if (checkCannotMoveItem == 1) {
 						cannotMoveItemOn(flag);
+					}
+					if (checkReverseMoveItem == 1) {
+						reverseInput();
+					} else {
+						input();
+					}
 					logic();
 				}
 
