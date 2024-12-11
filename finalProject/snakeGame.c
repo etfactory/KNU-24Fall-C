@@ -56,13 +56,13 @@ struct rank {
 	int score;
 };
 
-// Function to generate the fruit 
-// within the boundary 
+// Function to generate the fruit
+// within the boundary
 void setup()
 {
 	gameover = 0;
 
-	// Stores height and width 
+	// Stores height and width
 	x = height / 2;
 	y = width / 2;
 
@@ -106,7 +106,7 @@ void setup()
 	score = 0;
 }
 
-// Function to draw the boundaries 
+// Function to draw the boundaries
 void draw()
 {
 	system("cls");
@@ -152,7 +152,7 @@ void draw()
 		printf("\n");
 	}
 
-	// Print the score after the 
+	// Print the score after the
 	// game ends
 	printf("name : %s\n", name);
 	printf("score = %d", score);
@@ -161,7 +161,7 @@ void draw()
 
 }
 
-// Function to take the input 
+// Function to take the input
 void input() {
 	if (_kbhit()) {
 		switch (getch()) {
@@ -230,8 +230,8 @@ void cannotMoveItemOn(int flag) {
 	}
 }
 
-// Function for the logic behind 
-// each movement 
+// Function for the logic behind
+// each movement
 void logic()
 {
 	Sleep(200);
