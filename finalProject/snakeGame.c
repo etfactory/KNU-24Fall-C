@@ -280,6 +280,32 @@ void logic()
 			break;
 	}
 
+	// Fruit Location Fix
+	if ((fruitx <= range-1 || fruitx >= width-range-1)
+		&& fruity <= range-1 || fruity >= height-range-1) {
+		fruitx = 0;
+		while (fruitx == 0) {
+			fruitx = rand() % width - range;
+		}
+
+		fruity = 0;
+		while (fruity == 0) {
+			fruity = rand() % height - range;
+		}
+	}
+	if ((reverseMoveItemX <= range-1 || reverseMoveItemX >= width-range-1)
+			&& reverseMoveItemY <= range-1 || reverseMoveItemY >= height-range-1) {
+		reverseMoveItemX = 0;
+		while (reverseMoveItemX == 0) {
+			reverseMoveItemX = rand() % width - range;
+		}
+
+		reverseMoveItemY = 0;
+		while (reverseMoveItemY == 0) {
+			reverseMoveItemY = rand() % height - range;
+		}
+	}
+
 	if (x == 0 || x == height || y == 0 || y == width)
 		gameover = 1;
 
@@ -295,7 +321,7 @@ void logic()
 	if (x == fruitx && y == fruity) {
 		fruitx = 0;
 		while (fruitx == 0) {
-			fruitx = rand() % width;
+			fruitx = rand() % width - range;
 		}
 
 		fruity = 0;
