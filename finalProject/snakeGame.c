@@ -24,6 +24,9 @@ int x, y;
 
 int countOfMoving;
 
+// Range of Game
+int range;
+
 // Item X, Y
 int fruitx, fruity;
 int cannotMoveItemX, cannotMoveItemY;
@@ -70,16 +73,20 @@ void setup()
 
 	fruitx = 0;
 	while (fruitx == 0) {
-		fruitx = rand() % 20;
+		fruitx = rand() % width;
 	}
 
 	fruity = 0;
 	while (fruity == 0) {
-		fruity = rand() % 20;
+		fruity = rand() % height;
 	}
 
 	checkReverseMoveItem = 0;
 
+	// Set Default Range
+	range = 0;
+
+	// Set Item Location
 	cntCannotMoveItem = 0;
 	cannotMoveItemX = 0;
 	while (cannotMoveItemX == 0)
@@ -100,7 +107,7 @@ void setup()
 		fixRemoveItemX = rand() % width;
 	fixRemoveItemY = 0;
 	while (fixRemoveItemY == 0)
-		fixRemoveItemY = rand() % width;
+		fixRemoveItemY = rand() % height;
 
 	countOfMoving = 0;
 	score = 0;
@@ -116,6 +123,11 @@ void draw()
 				|| j == 0
 				|| j == height - 1) {
 				printf("X");
+			} else if (i == range
+				|| i == width - range - 1
+				|| j == range
+				|| j == height - range - 1) {
+				printf("+");
 			} else {
 				if (i == x && j == y)
 					printf("0");
@@ -271,6 +283,9 @@ void logic()
 	if (x == 0 || x == height || y == 0 || y == width)
 		gameover = 1;
 
+	if (x == range || x == height-range || y == range || y == width-range)
+		gameover = 1;
+
 	for (int i = 0; i < barCount; i++) {
 		if (x == barricadeX[i] && y == barricadeY[i]) {
 			gameover = 1;
@@ -311,9 +326,17 @@ void logic()
 	}
 
 	if (checkCannotMoveItem == 1) {
-		if(cntCannotMoveItem == 3)
+		if(cntCannotMoveItem == 3) {
 			checkCannotMoveItem = 0;
+			cntCannotMoveItem = 0;
+		}
 		cntCannotMoveItem++;
+	}
+
+	if (countOfMoving > 50) {
+		if (countOfMoving % 50 == 0) {
+			range++;
+		}
 	}
 
 	countOfMoving++;
