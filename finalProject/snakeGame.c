@@ -300,7 +300,7 @@ void logic()
 
 		fruity = 0;
 		while (fruity == 0) {
-			fruity = rand() % height;
+			fruity = rand() % height - range;
 		}
 
 		score += 10;
@@ -309,20 +309,20 @@ void logic()
 
 	if (x == reverseMoveItemX && y == reverseMoveItemY && checkReverseMoveItem == 0) {
 		checkReverseMoveItem = 1;
-		reverseMoveItemX = rand() % width;
-		reverseMoveItemY = rand() % height;
+		reverseMoveItemX = rand() % width - range;
+		reverseMoveItemY = rand() % height - range;
 	}
 
 	if (x == fixRemoveItemX && y == fixRemoveItemY && checkReverseMoveItem == 1) {
 		checkReverseMoveItem = 0;
-		fixRemoveItemX = rand() % width;
-		fixRemoveItemY = rand() % height;
+		fixRemoveItemX = rand() % width - range;
+		fixRemoveItemY = rand() % height - range;
 	}
 
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
 		checkCannotMoveItem = 1;
-		cannotMoveItemX = rand() % width;
-		cannotMoveItemY = rand() % height;
+		cannotMoveItemX = rand() % width - range;
+		cannotMoveItemY = rand() % height - range;
 	}
 
 	if (checkCannotMoveItem == 1) {
