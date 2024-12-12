@@ -355,31 +355,11 @@ void rank() {
 		printf("Did not Play this Game,\n");
 	} else {
 		struct rank ranks[100];
-		while(fscanf_s(db, "%19s\t%d", name, (unsigned)_countof(name), &scoreOfName) != EOF) {
-			strcpy_s(ranks[cnt].name,sizeof(ranks[cnt].name), name);
-			ranks[cnt].score = scoreOfName;
+
+		while(fscanf_s(db, "%19s\t%d",name,(unsigned)_countof(name), &scoreOfName) != EOF) {
+			printf("%3d. %9s\t%d\n",cnt,name,scoreOfName);
 			cnt++;
 		}
-		// Sort
-		char nameTEMP[20];
-		int scoreTEMP;
-		for(int i=0; i<cnt; i++) {
-			for(int j=0; j<cnt-i; j++) {
-				if (ranks[j].score < ranks[j+1].score) {
-					scoreTEMP = ranks[j].score;
-					ranks[j].score = ranks[j+1].score;
-					ranks[j+1].score = scoreTEMP;
-
-					strcpy_s(nameTEMP,sizeof(nameTEMP), ranks[j].name);
-					strcpy_s(ranks[j].name,sizeof(ranks[j].name), ranks[j+1].name);
-					strcpy_s(ranks[j+1].name,sizeof(ranks[j+1].name), nameTEMP);
-				}
-			}
-		}
-		for(int i=1; i<=cnt; i++) {
-			printf("%3d. %9s\t%d\n", i, ranks[i].name, ranks[i].score);
-		}
-
 		fclose(db);
 	}
 	printf("\n");
@@ -397,8 +377,40 @@ void gameOver(char name[]) {
 		getchar();
 		if (answer == 'Y' || answer == 'y') {
 			FILE* db;
-			fopen_s(&db, "rank.txt", "a");
-			fprintf(db, "%s\t%d\n", name, score);
+			struct rank ranks[100];
+			int cnt = 0;
+
+			// Open the file in read mode
+			fopen_s(&db, "rank.txt", "rt");
+			if (db != NULL) {
+				while(fscanf_s(db, "%19s\t%d", ranks[cnt].name, (unsigned)_countof(ranks[cnt].name), &ranks[cnt].score) != EOF) {
+					cnt++;
+				}
+				fclose(db);
+			}
+
+			// Add the new score
+			strcpy_s(ranks[cnt].name, sizeof(ranks[cnt].name), name);
+			ranks[cnt].score = score;
+			cnt++;
+
+			// Sort the scores
+			struct rank temp;
+			for (int i = 0; i < cnt - 1; i++) {
+				for (int j = i + 1; j < cnt; j++) {
+					if (ranks[i].score < ranks[j].score) {
+						temp = ranks[i];
+						ranks[i] = ranks[j];
+						ranks[j] = temp;
+					}
+				}
+			}
+
+			// Open the file in write mode
+			fopen_s(&db, "rank.txt", "wt");
+			for (int i = 0; i < cnt; i++) {
+				fprintf(db, "%s\t%d\n", ranks[i].name, ranks[i].score);
+			}
 			fclose(db);
 
 			printf("Your score is saved\n");
@@ -412,10 +424,7 @@ void gameOver(char name[]) {
 	}
 }
 
-void main()
-{
-	FILE* db;
-
+void main() {
 	while(1) {
 		int answer = intro();
 		gameover = 0;
