@@ -83,6 +83,9 @@ void setup()
 
 	checkReverseMoveItem = 0;
 
+	// Set Barricade
+	barCount = 0;
+
 	// Set Default Range
 	range = 0;
 
@@ -143,19 +146,22 @@ void draw()
 					printf("*");
 				else {
 					int isTail = 0;
+					int isBar = 0;
 					for (int k = 0; k < nTail; k++) {
 						if (i == tailX[k] && j == tailY[k]) {
 							printf("o");
 							isTail = 1;
 							break;
 						}
+					}
+					for (int k = 0; k < barCount; k++) {
 						if (i == barricadeX[k] && j == barricadeY[k]) {
-							printf("B");
-							isTail = 1;
+							printf("X");
+							isBar = 1;
 							break;
 						}
 					}
-					if (!isTail) {
+					if (!isTail && !isBar) {
 						printf(" ");
 					}
 				}
@@ -362,6 +368,14 @@ void logic()
 	if (countOfMoving > 50) {
 		if (countOfMoving % 50 == 0) {
 			range++;
+		}
+	}
+
+	if (countOfMoving > 10) {
+		if (countOfMoving % 10 == 0) {
+			barricadeX[barCount] = rand() % width - range;
+			barricadeY[barCount] = rand() % height - range;
+			barCount++;
 		}
 	}
 
