@@ -1,17 +1,3 @@
-/*
-conio.h : console input/output header
-stdio.h : standard input/output header
-stdlib.h : standard library header
-io.h : input/output header
-Windows.h : Windows header
-
-setup() : generate the fruit within the boundary
-draw() : draw the boundaries
-input() : take the input
-logic() : logic behind each movement
-main() : main function
- */
-
 #include <conio.h>
 #include <stdio.h> 
 #include <stdlib.h> 
@@ -293,12 +279,12 @@ void logic()
 	if (x == fruitx && y == fruity) {
 		fruitx = 0;
 		while (fruitx == 0) {
-			fruitx = rand() % width;
+			fruitx = rand() % (width-range*2) + range - 1;
 		}
 
 		fruity = 0;
 		while (fruity == 0) {
-			fruity = rand() % height;
+			fruity = rand() % (height-range*2) + range - 1;
 		}
 
 		score += 10;
@@ -309,30 +295,30 @@ void logic()
 		barCount = 0;
 		removeBarricadeX = 0;
 		while (removeBarricadeX == 0) {
-			removeBarricadeX = rand() % width;
+			removeBarricadeX = rand() % (width-range*2) + range - 1;
 		}
 		removeBarricadeY = 0;
 		while (removeBarricadeY == 0) {
-			removeBarricadeY = rand() % height;
+			removeBarricadeY = rand() % (height-range*2) + range - 1;
 		}
 	}
 
 	if (x == reverseMoveItemX && y == reverseMoveItemY && checkReverseMoveItem == 0) {
 		checkReverseMoveItem = 1;
-		reverseMoveItemX = rand() % width;
-		reverseMoveItemY = rand() % height;
+		reverseMoveItemX = rand() % (width-range*2) + range - 1;
+		reverseMoveItemY = rand() % (height-range*2) + range - 1;
 	}
 
 	if (x == fixRemoveItemX && y == fixRemoveItemY && checkReverseMoveItem == 1) {
 		checkReverseMoveItem = 0;
-		fixRemoveItemX = rand() % width;
-		fixRemoveItemY = rand() % height;
+		fixRemoveItemX = rand() % (width-range*2) + range - 1;
+		fixRemoveItemY = rand() % (height-range*2) + range - 1;
 	}
 
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
 		checkCannotMoveItem = 1;
-		cannotMoveItemX = rand() % width;
-		cannotMoveItemY = rand() % height;
+		cannotMoveItemX = rand() % (width-range*2) + range - 1;
+		cannotMoveItemY = rand() % (height-range*2) + range - 1;
 	}
 
 	if (checkCannotMoveItem == 1) {
@@ -365,8 +351,8 @@ void logic()
 	if (score % 20 != 0 && barTemp == 1) barTemp = 0;
 
 	if (score % 20 == 0 && barTemp == 0 && score > 0) {
-		barricadeX[barCount] = rand() % width;
-		barricadeY[barCount] = rand() % height;
+		barricadeX[barCount] = rand() % (width-range*2) + range - 1;
+		barricadeY[barCount] = rand() % (height-range*2) + range - 1;
 		barCount++;
 		barTemp = 1;
 	}
