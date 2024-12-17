@@ -334,12 +334,12 @@ void logic()
 		fruity <= range || fruity >= height-range-1)
 		setFruit();
 
-	if (removeBarricadeX <= range || removeBarricadeX >= width-range-1 ||
-		removeBarricadeY <= range || removeBarricadeY >= height-range-1 && barCount > 0)
+	if ((removeBarricadeX <= range || removeBarricadeX >= width-range-1 ||
+		removeBarricadeY <= range || removeBarricadeY >= height-range-1) && barCount > 0)
 		setRemoveBarricade();
 
-	if (reverseMoveItemX <= range || removeBarricadeX >= width-range-1 ||
-		reverseMoveItemY <= range || removeBarricadeY >= height-range-1)
+	if (reverseMoveItemX <= range || reverseMoveItemX >= width-range-1 ||
+		reverseMoveItemY <= range || reverseMoveItemY >= height-range-1)
 		setReverseMoveItem();
 
 	if (fixReverseItemX <= range || fixReverseItemX >= width-range-1 ||
