@@ -247,18 +247,18 @@ void cannotMoveItemOn(int flag) {
 void setFruit() {
 	fruitx = 0;
 	while (fruitx == 0) {
-		fruitx = rand() % (width-range*2) + range;
+		fruitx = rand() % (width-range*2) + range - 1;
 	}
 
 	fruity = 0;
 	while (fruity == 0) {
-		fruity = rand() % (height-range*2) + range;
+		fruity = rand() % (height-range*2) + range - 1;
 	}
 }
 
 void setBarricade() {
-	barricadeX[barCount] = rand() % (width-range*2) + range;
-	barricadeY[barCount] = rand() % (height-range*2) + range;
+	barricadeX[barCount] = rand() % (width-range*2) + range - 1;
+	barricadeY[barCount] = rand() % (height-range*2) + range - 1;
 	barCount++;
 	barTemp = 1;
 }
@@ -266,30 +266,30 @@ void setBarricade() {
 void setRemoveBarricade() {
 	removeBarricadeX = 0;
 	while (removeBarricadeX == 0) {
-		removeBarricadeX = rand() % (width-range*2) + range;
+		removeBarricadeX = rand() % (width-range*2) + range - 1;
 	}
 	removeBarricadeY = 0;
 	while (removeBarricadeY == 0) {
-		removeBarricadeY = rand() % (height-range*2) + range;
+		removeBarricadeY = rand() % (height-range*2) + range - 1;
 	}
 }
 
 void setCannotMoveItem() {
 	checkCannotMoveItem = 1;
-	cannotMoveItemX = rand() % (width-range*2) + range;
-	cannotMoveItemY = rand() % (height-range*2) + range;
+	cannotMoveItemX = rand() % (width-range*2) + range - 1;
+	cannotMoveItemY = rand() % (height-range*2) + range - 1;
 }
 
 void setReverseMoveItem() {
 	checkReverseMoveItem = 1;
-	reverseMoveItemX = rand() % (width-range*2) + range;
-	reverseMoveItemY = rand() % (height-range*2) + range;
+	reverseMoveItemX = rand() % (width-range*2) + range - 1;
+	reverseMoveItemY = rand() % (height-range*2) + range - 1;
 }
 
 void setFixReverseItem() {
 	checkReverseMoveItem = 0;
-	fixReverseItemX = rand() % (width-range*2) + range;
-	fixReverseItemY = rand() % (height-range*2) + range;
+	fixReverseItemX = rand() % (width-range*2) + range - 1;
+	fixReverseItemY = rand() % (height-range*2) + range - 1;
 }
 
 // Function for the logic behind
@@ -329,7 +329,28 @@ void logic()
 		default:
 			break;
 	}
+	// If Items is out of Range
+	if (fruitx <= range || fruitx >= width-range-1 ||
+		fruity <= range || fruity >= height-range-1)
+		setFruit();
 
+	if (removeBarricadeX <= range || removeBarricadeX >= width-range-1 ||
+		removeBarricadeY <= range || removeBarricadeY >= height-range-1 && barCount > 0)
+		setRemoveBarricade();
+
+	if (reverseMoveItemX <= range || removeBarricadeX >= width-range-1 ||
+		reverseMoveItemY <= range || removeBarricadeY >= height-range-1)
+		setReverseMoveItem();
+
+	if (fixReverseItemX <= range || fixReverseItemX >= width-range-1 ||
+		fixReverseItemY <= range || fixReverseItemY >= height-range-1)
+		setFixReverseItem();
+
+	if (cannotMoveItemX <= range || cannotMoveItemX >= width-range-1 ||
+		cannotMoveItemY <= range || cannotMoveItemY >= height-range-1)
+		setCannotMoveItem();
+
+	// Snake eats Items
 	if (x == fruitx && y == fruity) {
 		setFruit();
 		score += 10;
