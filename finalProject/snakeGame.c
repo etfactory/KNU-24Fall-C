@@ -2,6 +2,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <io.h>
+#include <time.h>
 #include <Windows.h>
 
 int i, j, height = 20, width = 20;
@@ -18,8 +19,9 @@ int rangeTemp;
 int fruitx, fruity;
 int cannotMoveItemX, cannotMoveItemY;
 int reverseMoveItemX, reverseMoveItemY;
-int fixRemoveItemX, fixRemoveItemY;
+int fixReverseItemX, fixReverseItemY;
 int removeBarricadeX, removeBarricadeY;
+int removeBarricadeTemp;
 
 // cannotMoveItem Value
 int cntCannotMoveItem;
@@ -51,6 +53,8 @@ struct rank {
 // within the boundary
 void setup()
 {
+	srand(time(NULL));
+
 	gameover = 0;
 
 	// Stores height and width
@@ -79,6 +83,8 @@ void setup()
 	range = 0;
 	rangeTemp = 0;
 
+	removeBarricadeTemp = 0;
+
 	// Set Item Location
 	cntCannotMoveItem = 0;
 	cannotMoveItemX = 0;
@@ -95,12 +101,12 @@ void setup()
 	while (reverseMoveItemY == 0)
 		reverseMoveItemY = rand() % height;
 
-	fixRemoveItemX = 0;
-	while (fixRemoveItemX == 0)
-		fixRemoveItemX = rand() % width;
-	fixRemoveItemY = 0;
-	while (fixRemoveItemY == 0)
-		fixRemoveItemY = rand() % height;
+	fixReverseItemX = 0;
+	while (fixReverseItemX == 0)
+		fixReverseItemX = rand() % width;
+	fixReverseItemY = 0;
+	while (fixReverseItemY == 0)
+		fixReverseItemY = rand() % height;
 
 	countOfMoving = 0;
 	score = 0;
@@ -130,7 +136,7 @@ void draw()
 					printf("!");
 				else if (i == reverseMoveItemX && j == reverseMoveItemY && checkReverseMoveItem == 0)
 					printf("@");
-				else if (i == fixRemoveItemX && j == fixRemoveItemY && checkReverseMoveItem == 1)
+				else if (i == fixReverseItemX && j == fixReverseItemY && checkReverseMoveItem == 1)
 					printf("~");
 				else if (i == removeBarricadeX && j == removeBarricadeY)
 					printf("*");
@@ -238,6 +244,54 @@ void cannotMoveItemOn(int flag) {
 	}
 }
 
+void setFruit() {
+	fruitx = 0;
+	while (fruitx == 0) {
+		fruitx = rand() % (width-range*2) + range;
+	}
+
+	fruity = 0;
+	while (fruity == 0) {
+		fruity = rand() % (height-range*2) + range;
+	}
+}
+
+void setBarricade() {
+	barricadeX[barCount] = rand() % (width-range*2) + range;
+	barricadeY[barCount] = rand() % (height-range*2) + range;
+	barCount++;
+	barTemp = 1;
+}
+
+void setRemoveBarricade() {
+	removeBarricadeX = 0;
+	while (removeBarricadeX == 0) {
+		removeBarricadeX = rand() % (width-range*2) + range;
+	}
+	removeBarricadeY = 0;
+	while (removeBarricadeY == 0) {
+		removeBarricadeY = rand() % (height-range*2) + range;
+	}
+}
+
+void setCannotMoveItem() {
+	checkCannotMoveItem = 1;
+	cannotMoveItemX = rand() % (width-range*2) + range;
+	cannotMoveItemY = rand() % (height-range*2) + range;
+}
+
+void setReverseMoveItem() {
+	checkReverseMoveItem = 1;
+	reverseMoveItemX = rand() % (width-range*2) + range;
+	reverseMoveItemY = rand() % (height-range*2) + range;
+}
+
+void setFixReverseItem() {
+	checkReverseMoveItem = 0;
+	fixReverseItemX = rand() % (width-range*2) + range;
+	fixReverseItemY = rand() % (height-range*2) + range;
+}
+
 // Function for the logic behind
 // each movement
 void logic()
@@ -277,48 +331,32 @@ void logic()
 	}
 
 	if (x == fruitx && y == fruity) {
-		fruitx = 0;
-		while (fruitx == 0) {
-			fruitx = rand() % (width-range*2) + range - 1;
-		}
-
-		fruity = 0;
-		while (fruity == 0) {
-			fruity = rand() % (height-range*2) + range - 1;
-		}
-
+		setFruit();
 		score += 10;
 		nTail++;
 	}
 
+	if (barCount > 0 && removeBarricadeTemp == 0) {
+		setRemoveBarricade();
+		removeBarricadeTemp = 1;
+	}
+
 	if (x == removeBarricadeX && y == removeBarricadeY) {
 		barCount = 0;
-		removeBarricadeX = 0;
-		while (removeBarricadeX == 0) {
-			removeBarricadeX = rand() % (width-range*2) + range - 1;
-		}
-		removeBarricadeY = 0;
-		while (removeBarricadeY == 0) {
-			removeBarricadeY = rand() % (height-range*2) + range - 1;
-		}
+		range = 0;
+		removeBarricadeTemp = 0;
 	}
 
 	if (x == reverseMoveItemX && y == reverseMoveItemY && checkReverseMoveItem == 0) {
-		checkReverseMoveItem = 1;
-		reverseMoveItemX = rand() % (width-range*2) + range - 1;
-		reverseMoveItemY = rand() % (height-range*2) + range - 1;
+		setReverseMoveItem();
 	}
 
-	if (x == fixRemoveItemX && y == fixRemoveItemY && checkReverseMoveItem == 1) {
-		checkReverseMoveItem = 0;
-		fixRemoveItemX = rand() % (width-range*2) + range - 1;
-		fixRemoveItemY = rand() % (height-range*2) + range - 1;
+	if (x == fixReverseItemX && y == fixReverseItemY && checkReverseMoveItem == 1) {
+		setFixReverseItem();
 	}
 
 	if (x == cannotMoveItemX && y == cannotMoveItemY) {
-		checkCannotMoveItem = 1;
-		cannotMoveItemX = rand() % (width-range*2) + range - 1;
-		cannotMoveItemY = rand() % (height-range*2) + range - 1;
+		setCannotMoveItem();
 	}
 
 	if (checkCannotMoveItem == 1) {
@@ -351,10 +389,12 @@ void logic()
 	if (score % 20 != 0 && barTemp == 1) barTemp = 0;
 
 	if (score % 20 == 0 && barTemp == 0 && score > 0) {
-		barricadeX[barCount] = rand() % (width-range*2) + range - 1;
-		barricadeY[barCount] = rand() % (height-range*2) + range - 1;
-		barCount++;
-		barTemp = 1;
+		setBarricade();
+		// Check the barricade is not on the fruit
+		while (barricadeX[barCount-1] == fruitx && barricadeY[barCount-1] == fruity) {
+			barricadeX[barCount-1] = rand() % (width-range*2) + range - 1;
+			barricadeY[barCount-1] = rand() % (height-range*2) + range - 1;
+		}
 	}
 
 	countOfMoving++;
