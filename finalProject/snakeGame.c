@@ -201,20 +201,20 @@ void input() {
 void reverseInput() {
 	if (_kbhit()) {
 		switch (getch()) {
-			case 'a':
-				flag = 3;
+		case 'a':
+			flag = 3;
 			break;
-			case 's':
-				flag = 4;
+		case 's':
+			flag = 4;
 			break;
-			case 'd':
-				flag = 1;
+		case 'd':
+			flag = 1;
 			break;
-			case 'w':
-				flag = 2;
+		case 'w':
+			flag = 2;
 			break;
-			case 'x':
-				gameover = 1;
+		case 'x':
+			gameover = 1;
 			break;
 		}
 	}
