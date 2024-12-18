@@ -194,7 +194,28 @@ void input() {
 		case 'x':
 			gameover = 1;
 			break;
+		default:
+			break;
 		}
+	}
+}
+
+void moveSnake() {
+	switch (flag) {
+		case 1:
+			y--;
+		break;
+		case 2:
+			x++;
+		break;
+		case 3:
+			y++;
+		break;
+		case 4:
+			x--;
+		break;
+		default:
+			break;
 	}
 }
 
@@ -215,6 +236,8 @@ void reverseInput() {
 			break;
 		case 'x':
 			gameover = 1;
+			break;
+		default:
 			break;
 		}
 	}
@@ -314,46 +337,7 @@ void replaceItems() {
 		setCannotMoveItem();
 }
 
-// Function for the logic behind
-// each movement
-void logic()
-{
-	Sleep(200);
-
-	int prevX = tailX[0];
-	int prevY = tailY[0];
-	int prev2X, prev2Y;
-	tailX[0] = x;
-	tailY[0] = y;
-
-	for (int i = 1; i < nTail; i++) {
-		prev2X = tailX[i];
-		prev2Y = tailY[i];
-		tailX[i] = prevX;
-		tailY[i] = prevY;
-		prevX = prev2X;
-		prevY = prev2Y;
-	}
-
-	switch (flag) {
-		case 1:
-			y--;
-		break;
-		case 2:
-			x++;
-		break;
-		case 3:
-			y++;
-		break;
-		case 4:
-			x--;
-		break;
-		default:
-			break;
-	}
-	// If Items is out of Range
-	replaceItems();
-
+void setItems() {
 	// Snake eats Items
 	if (x == fruitx && y == fruity) {
 		setFruit();
@@ -392,18 +376,6 @@ void logic()
 		cntCannotMoveItem++;
 	}
 
-	if (x == 0 || x == height || y == 0 || y == width)
-		gameover = 1;
-
-	if (x == range || x == height-range || y == range || y == width-range)
-		gameover = 1;
-
-	for (int i = 0; i < barCount; i++) {
-		if (x == barricadeX[i] && y == barricadeY[i]) {
-			gameover = 1;
-		}
-	}
-
 	if (score % 40 != 0 && rangeTemp == 1) rangeTemp = 0;
 
 	if (score % 40 == 0 && rangeTemp == 0 && score > 0) {
@@ -421,6 +393,50 @@ void logic()
 			barricadeY[barCount-1] = rand() % (height-range*2) + range - 1;
 		}
 	}
+}
+
+// Function for the logic behind
+// each movement
+void logic()
+{
+	Sleep(200);
+
+	// Logic for the movement of the snake
+	int prevX = tailX[0];
+	int prevY = tailY[0];
+	int prev2X, prev2Y;
+	tailX[0] = x;
+	tailY[0] = y;
+
+	for (int i = 1; i < nTail; i++) {
+		prev2X = tailX[i];
+		prev2Y = tailY[i];
+		tailX[i] = prevX;
+		tailY[i] = prevY;
+		prevX = prev2X;
+		prevY = prev2Y;
+	}
+
+	moveSnake();
+
+	// If Items is out of Range
+	replaceItems();
+
+	// Logic for Game Over
+	if (x == 0 || x == height || y == 0 || y == width)
+		gameover = 1;
+
+	if (x == range || x == height-range || y == range || y == width-range)
+		gameover = 1;
+
+	for (int i = 0; i < barCount; i++) {
+		if (x == barricadeX[i] && y == barricadeY[i]) {
+			gameover = 1;
+		}
+	}
+
+	// Logic for the items
+	setItems();
 
 	countOfMoving++;
 }
@@ -460,8 +476,6 @@ void rank() {
 	if (db == NULL) {
 		printf("Did not Play this Game,\n");
 	} else {
-		struct rank ranks[100];
-
 		while(fscanf_s(db, "%19s\t%d",name,(unsigned)_countof(name), &scoreOfName) != EOF) {
 			printf("%3d. %9s\t%d\n",cnt,name,scoreOfName);
 			cnt++;
