@@ -138,7 +138,7 @@ void draw()
 					printf("@");
 				else if (i == fixReverseItemX && j == fixReverseItemY && checkReverseMoveItem == 1)
 					printf("~");
-				else if (i == removeBarricadeX && j == removeBarricadeY)
+				else if (i == removeBarricadeX && j == removeBarricadeY && removeBarricadeTemp == 1)
 					printf("*");
 				else {
 					int isTail = 0;
