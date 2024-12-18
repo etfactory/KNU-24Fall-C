@@ -1,6 +1,6 @@
 #include <conio.h>
 #include <stdio.h> 
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <io.h>
 #include <time.h>
 #include <Windows.h>
@@ -227,20 +227,20 @@ void cannotMoveItemOn(int flag) {
 		}
 	}
 	switch (flag) {
-		case 1:
-			y--;
+	case 1:
+		y--;
 		break;
-		case 2:
-			x++;
+	case 2:
+		x++;
 		break;
-		case 3:
-			y++;
+	case 3:
+		y++;
 		break;
-		case 4:
-			x--;
+	case 4:
+		x--;
 		break;
-		default:
-			break;
+	default:
+		break;
 	}
 }
 
