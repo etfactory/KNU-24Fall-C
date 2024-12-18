@@ -395,6 +395,21 @@ void setItems() {
 	}
 }
 
+void conditionOfGameOver() {
+	// Logic for Game Over
+	if (x == 0 || x == height || y == 0 || y == width)
+		gameover = 1;
+
+	if (x == range || x == height-range || y == range || y == width-range)
+		gameover = 1;
+
+	for (int i = 0; i < barCount; i++) {
+		if (x == barricadeX[i] && y == barricadeY[i]) {
+			gameover = 1;
+		}
+	}
+}
+
 // Function for the logic behind
 // each movement
 void logic()
@@ -422,18 +437,7 @@ void logic()
 	// If Items is out of Range
 	replaceItems();
 
-	// Logic for Game Over
-	if (x == 0 || x == height || y == 0 || y == width)
-		gameover = 1;
-
-	if (x == range || x == height-range || y == range || y == width-range)
-		gameover = 1;
-
-	for (int i = 0; i < barCount; i++) {
-		if (x == barricadeX[i] && y == barricadeY[i]) {
-			gameover = 1;
-		}
-	}
+	conditionOfGameOver();
 
 	// Logic for the items
 	setItems();
