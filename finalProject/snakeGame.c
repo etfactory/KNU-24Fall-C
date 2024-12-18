@@ -292,6 +292,28 @@ void setFixReverseItem() {
 	fixReverseItemY = rand() % (height-range*2) + range - 1;
 }
 
+void replaceItems() {
+	if (fruitx <= range || fruitx >= width-range-1 ||
+			fruity <= range || fruity >= height-range-1)
+		setFruit();
+
+	if ((removeBarricadeX <= range || removeBarricadeX >= width-range-1 ||
+		removeBarricadeY <= range || removeBarricadeY >= height-range-1) && barCount > 0)
+		setRemoveBarricade();
+
+	if (reverseMoveItemX <= range || reverseMoveItemX >= width-range-1 ||
+		reverseMoveItemY <= range || reverseMoveItemY >= height-range-1)
+		setReverseMoveItem();
+
+	if (fixReverseItemX <= range || fixReverseItemX >= width-range-1 ||
+		fixReverseItemY <= range || fixReverseItemY >= height-range-1)
+		setFixReverseItem();
+
+	if (cannotMoveItemX <= range || cannotMoveItemX >= width-range-1 ||
+		cannotMoveItemY <= range || cannotMoveItemY >= height-range-1)
+		setCannotMoveItem();
+}
+
 // Function for the logic behind
 // each movement
 void logic()
@@ -330,25 +352,7 @@ void logic()
 			break;
 	}
 	// If Items is out of Range
-	if (fruitx <= range || fruitx >= width-range-1 ||
-		fruity <= range || fruity >= height-range-1)
-		setFruit();
-
-	if ((removeBarricadeX <= range || removeBarricadeX >= width-range-1 ||
-		removeBarricadeY <= range || removeBarricadeY >= height-range-1) && barCount > 0)
-		setRemoveBarricade();
-
-	if (reverseMoveItemX <= range || reverseMoveItemX >= width-range-1 ||
-		reverseMoveItemY <= range || reverseMoveItemY >= height-range-1)
-		setReverseMoveItem();
-
-	if (fixReverseItemX <= range || fixReverseItemX >= width-range-1 ||
-		fixReverseItemY <= range || fixReverseItemY >= height-range-1)
-		setFixReverseItem();
-
-	if (cannotMoveItemX <= range || cannotMoveItemX >= width-range-1 ||
-		cannotMoveItemY <= range || cannotMoveItemY >= height-range-1)
-		setCannotMoveItem();
+	replaceItems();
 
 	// Snake eats Items
 	if (x == fruitx && y == fruity) {
