@@ -58,8 +58,8 @@ void setup()
 	gameover = 0;
 
 	// Stores height and width
-	x = height / 2;
-	y = width / 2;
+	x = width / 2;
+	y = height / 2;
 
 	nTail = 0;
 
@@ -481,7 +481,7 @@ void rank() {
 		printf("Did not Play this Game,\n");
 	} else {
 		while(fscanf_s(db, "%19s\t%d",name,(unsigned)_countof(name), &scoreOfName) != EOF) {
-			printf("%3d. %9s\t%d\n",cnt,name,scoreOfName);
+			printf("%3d. %9s\t%d\n",cnt+1,name,scoreOfName);
 			cnt++;
 		}
 		fclose(db);
