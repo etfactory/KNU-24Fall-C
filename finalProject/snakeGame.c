@@ -1,3 +1,6 @@
+// 주석에 적혀있지 않은 부분은 최종 보고서에 작성되어 있습니다.
+// 202101776 오은택
+
 #include <conio.h>
 #include <stdio.h> 
 #include <stdlib.h>
@@ -11,11 +14,12 @@ int x, y;
 
 int countOfMoving;
 
-// Range of Game
+// 게임 범위와 관련된 변수입니다.
+// range가 증가할 수록 맵이 줄어듭니다.
 int range;
 int rangeTemp;
 
-// Item X, Y
+// 아이템의 좌표를 저장하는 변수입니다.
 int fruitx, fruity;
 int cannotMoveItemX, cannotMoveItemY;
 int reverseMoveItemX, reverseMoveItemY;
@@ -23,14 +27,14 @@ int fixReverseItemX, fixReverseItemY;
 int removeBarricadeX, removeBarricadeY;
 int removeBarricadeTemp;
 
-// cannotMoveItem Value
+// cannotMoveItem의 횟수와 플래그를 저장하는 변수
 int cntCannotMoveItem;
 int checkCannotMoveItem;
 
-// Reverse Move Item Value
+// Reverse Move Item 플래그 저장 변수
 int checkReverseMoveItem;
 
-// Barricade X, Y
+// 장애물 좌표
 int barricadeX[20], barricadeY[20];
 int barTemp;
 
@@ -38,11 +42,11 @@ int barCount;
 
 int flag;
 
-// Tail
-int tailX[100], tailY[100]; // Arrays to store the positions of the tail segments
-int nTail; // Number of tail segments
+// 꼬리
+int tailX[100], tailY[100]; // 꼬리의 좌표를 저장하는 변수
+int nTail; // 꼬리의 개수
 
-char name[20];
+char name[20]; // 닉네임
 
 struct rank {
 	char name[20];
@@ -75,17 +79,17 @@ void setup()
 
 	checkReverseMoveItem = 0;
 
-	// Set Barricade
+	// 장애물 초기화
 	barCount = 0;
 	barTemp = 0;
 
-	// Set Default Range
+	// 범위 초기화
 	range = 0;
 	rangeTemp = 0;
 
 	removeBarricadeTemp = 0;
 
-	// Set Item Location
+	// 아이템 초기화
 	cntCannotMoveItem = 0;
 	cannotMoveItemX = 0;
 	while (cannotMoveItemX == 0)
@@ -267,6 +271,7 @@ void cannotMoveItemOn(int flag) {
 	}
 }
 
+// 각종 아이템 위치 설정 함수
 void setFruit() {
 	fruitx = 0;
 	while (fruitx == 0) {
@@ -315,6 +320,7 @@ void setFixReverseItem() {
 	fixReverseItemY = rand() % (height-range*2) + range - 1;
 }
 
+// 아이템이 맵 밖에 위치할 경우 위치 재지정
 void replaceItems() {
 	if (fruitx <= range || fruitx >= width-range-1 ||
 			fruity <= range || fruity >= height-range-1)
@@ -337,6 +343,7 @@ void replaceItems() {
 		setCannotMoveItem();
 }
 
+// 아이템 설정 함수
 void setItems() {
 	// Snake eats Items
 	if (x == fruitx && y == fruity) {
@@ -387,7 +394,7 @@ void setItems() {
 
 	if (score % 20 == 0 && barTemp == 0 && score > 0) {
 		setBarricade();
-		// Check the barricade is not on the fruit
+		// 장애물이 아이템과 겹치지 않도록 설정
 		while (barricadeX[barCount-1] == fruitx && barricadeY[barCount-1] == fruity) {
 			barricadeX[barCount-1] = rand() % (width-range*2) + range - 1;
 			barricadeY[barCount-1] = rand() % (height-range*2) + range - 1;
@@ -395,8 +402,8 @@ void setItems() {
 	}
 }
 
+// 게임이 종료되는 조건을 설정하는 함수
 void conditionOfGameOver() {
-	// Logic for Game Over
 	if (x == 0 || x == height || y == 0 || y == width)
 		gameover = 1;
 
@@ -416,7 +423,7 @@ void logic()
 {
 	Sleep(200);
 
-	// Logic for the movement of the snake
+	// 뱀의 꼬리 움직임 관련
 	int prevX = tailX[0];
 	int prevY = tailY[0];
 	int prev2X, prev2Y;
@@ -434,12 +441,10 @@ void logic()
 
 	moveSnake();
 
-	// If Items is out of Range
 	replaceItems();
 
 	conditionOfGameOver();
 
-	// Logic for the items
 	setItems();
 
 	countOfMoving++;
@@ -469,7 +474,7 @@ void rank() {
 	char name[20];
 	int scoreOfName;
 	int cnt = 0;
-	// Open the file in read mode
+	// 데이터 읽기
 	fopen_s(&db, "rank.txt", "rt");
 
 	system("cls");
@@ -504,7 +509,7 @@ void gameOver(char name[]) {
 			struct rank ranks[100];
 			int cnt = 0;
 
-			// Open the file in read mode
+			// 데이터 읽기 및 구조체에 저장
 			fopen_s(&db, "rank.txt", "rt");
 			if (db != NULL) {
 				while(fscanf_s(db, "%19s\t%d", ranks[cnt].name, (unsigned)_countof(ranks[cnt].name), &ranks[cnt].score) != EOF) {
@@ -513,12 +518,12 @@ void gameOver(char name[]) {
 				fclose(db);
 			}
 
-			// Add the new score
+			// 구조체에 게임 결과 저장
 			strcpy_s(ranks[cnt].name, sizeof(ranks[cnt].name), name);
 			ranks[cnt].score = score;
 			cnt++;
 
-			// Sort the scores
+			// 구조체 정렬
 			struct rank temp;
 			for (int i = 0; i < cnt - 1; i++) {
 				for (int j = i + 1; j < cnt; j++) {
@@ -530,7 +535,7 @@ void gameOver(char name[]) {
 				}
 			}
 
-			// Open the file in write mode
+			// DB에 구조체 내용 저장 (정렬 결과 저장)
 			fopen_s(&db, "rank.txt", "wt");
 			for (int i = 0; i < cnt; i++) {
 				fprintf(db, "%s\t%d\n", ranks[i].name, ranks[i].score);
